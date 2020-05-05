@@ -9,7 +9,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumns;
 import javax.persistence.JoinColumn;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.yellowstone.cleantogather.api.user.User;
 
 import java.time.LocalDateTime;
@@ -20,7 +23,9 @@ import java.util.Set;
  * class Event
  */
 @Entity
-@JsonIgnoreProperties({"userSubscribed"})
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

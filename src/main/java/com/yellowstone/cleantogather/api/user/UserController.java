@@ -36,6 +36,22 @@ public class UserController {
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
     }
+    
+    @ApiOperation("Get an user by his id")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable("id") Long id) {
+        return userRepository.findById(id).orElseThrow(NotFoundException::new);
+    }
+    
+    @ApiOperation("Patch an existent user")
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/{id}")
+    public User patchUser(@RequestBody User user, @PathVariable("id") Long id) {
+        User userToUpdate = userRepository.findById(id).orElseThrow(NotFoundException::new);
+        mapper.map(user, userToUpdate);
+        return userRepository.save(userToUpdate);
+    }
 
     @ApiOperation("Delete an user")
     @ResponseStatus(HttpStatus.OK)

@@ -70,9 +70,9 @@ public class EventController {
     @ApiOperation("Subscribe user")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/subscribe")
-    public Set<User> postSubscribeEvent(@RequestBody Long[] ids) {
-    	User userSubscribing = userRepository.findById(ids[1]).orElseThrow(NotFoundException::new);
-    	Event event = eventRepository.findById(ids[0]).orElseThrow(NotFoundException::new);
+    public Set<User> postSubscribeEvent(@RequestParam Long event_id, @RequestParam Long user_id) {
+    	User userSubscribing = userRepository.findById(user_id).orElseThrow(NotFoundException::new);
+    	Event event = eventRepository.findById(event_id).orElseThrow(NotFoundException::new);
     	event.addUserSubscribed(userSubscribing);
     	eventRepository.save(event);
     	return event.getUserSubscribed();
@@ -89,9 +89,9 @@ public class EventController {
     @ApiOperation("Unsubscribe user")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/unsubscribe")
-    public Set<User> postUnsubscribeEvent(@RequestBody Long[] ids) {
-    	User userSubscribing = userRepository.findById(ids[1]).orElseThrow(NotFoundException::new);
-    	Event event = eventRepository.findById(ids[0]).orElseThrow(NotFoundException::new);
+    public Set<User> postUnsubscribeEvent(@RequestParam Long event_id, @RequestParam Long user_id) {
+    	User userSubscribing = userRepository.findById(user_id).orElseThrow(NotFoundException::new);
+    	Event event = eventRepository.findById(event_id).orElseThrow(NotFoundException::new);
     	event.deleteUserSubscribed(userSubscribing);
     	eventRepository.save(event);
     	return event.getUserSubscribed();

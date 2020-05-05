@@ -6,7 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.yellowstone.cleantogather.api.event.Event;
 
 import java.time.LocalDateTime;
@@ -14,7 +17,9 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@JsonIgnoreProperties({"eventSubscribed"})
+@JsonIdentityInfo(
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "id")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -121,10 +126,4 @@ public class User {
 	public Set<Event> getEventSubscribed() {
 		return eventSubscribed;
 	}
-
-	public void setEventSubscribed(Set<Event> eventSubscribed) {
-		this.eventSubscribed = eventSubscribed;
-	}
-	
-	
 }
