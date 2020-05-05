@@ -1,6 +1,9 @@
 package com.yellowstone.cleantogather.api.event;
 
 import com.yellowstone.cleantogather.api.common.exception.NotFoundException;
+import com.yellowstone.cleantogather.api.user.User;
+import com.yellowstone.cleantogather.api.user.UserRepository;
+
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,17 +11,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController // This means this class is a rest controller
 @RequestMapping(path="/events") // This means URL's start with /events (after Application path)
 public class EventController {
 
     private final EventRepository eventRepository;
+    private final UserRepository userRepository;
     private final ModelMapper mapper;
 
     @Autowired
-    public EventController(EventRepository eventRepository, ModelMapper mapper) {
-        this.eventRepository = eventRepository;
+    public EventController(EventRepository eventRepository, UserRepository userRepository, ModelMapper mapper) {
+        this.userRepository = userRepository;
+		this.eventRepository = eventRepository;
         this.mapper = mapper;
     }
 
@@ -59,5 +65,35 @@ public class EventController {
         Event deletedEvent = eventRepository.findById(id).orElseThrow(NotFoundException::new);
         eventRepository.deleteById(id);
         return deletedEvent;
+    }
+    
+    @ApiOperation("Subscribe user")
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/subscribe")
+    public Set<User> postSubscribeEvent(@RequestBody Long[] ids) {
+    	User userSubscribing = userRepository.findById(ids[1]).orElseThrow(NotFoundException::new);
+    	Event event = eventRepository.findById(ids[0]).orElseThrow(NotFoundException::new);
+    	event.addUserSubscribed(userSubscribing);
+    	eventRepository.save(event);
+    	return event.getUserSubscribed();
+    }
+    
+    @ApiOperation("Get subscribed users")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/subscribed/{id}")
+    public Set<User> getSubscribedUsers(@PathVariable("id") Long id) {
+    	Event event = eventRepository.findById(id).orElseThrow(NotFoundException::new);
+    	return event.getUserSubscribed();
+    }
+    
+    @ApiOperation("Unsubscribe user")
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/unsubscribe")
+    public Set<User> postUnsubscribeEvent(@RequestBody Long[] ids) {
+    	User userSubscribing = userRepository.findById(ids[1]).orElseThrow(NotFoundException::new);
+    	Event event = eventRepository.findById(ids[0]).orElseThrow(NotFoundException::new);
+    	event.deleteUserSubscribed(userSubscribing);
+    	eventRepository.save(event);
+    	return event.getUserSubscribed();
     }
 }
