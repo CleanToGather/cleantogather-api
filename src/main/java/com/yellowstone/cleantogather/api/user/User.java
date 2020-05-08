@@ -1,10 +1,6 @@
 package com.yellowstone.cleantogather.api.user;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -29,7 +25,7 @@ public class User {
 	private String email;
 	private String password;
 	
-	@ManyToMany(mappedBy = "userSubscribed")
+	@ManyToMany(fetch = FetchType.LAZY ,cascade = {CascadeType.ALL}, mappedBy = "userSubscribed")
 	private Set<Event> eventSubscribed;
 	
 	public User () {}

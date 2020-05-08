@@ -1,13 +1,6 @@
 package com.yellowstone.cleantogather.api.event;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.JoinColumns;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -34,8 +27,8 @@ public class Event {
     private String description;
     private String address;
     private LocalDateTime startDateTime;
-    
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.LAZY ,cascade = {CascadeType.ALL})
     @JoinTable(
     		name = "event_participants",
     		joinColumns = @JoinColumn(name = "event_id"),

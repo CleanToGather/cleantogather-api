@@ -2,6 +2,7 @@ package com.yellowstone.cleantogather.api.event;
 
 import com.yellowstone.cleantogather.api.common.exception.NotFoundException;
 import com.yellowstone.cleantogather.api.user.User;
+import com.yellowstone.cleantogather.api.user.UserInfo;
 import com.yellowstone.cleantogather.api.user.UserRepository;
 
 import io.swagger.annotations.ApiOperation;
@@ -10,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController // This means this class is a rest controller
 @RequestMapping(path="/events") // This means URL's start with /events (after Application path)
@@ -54,8 +57,12 @@ public class EventController {
     @ApiOperation("Get all the events")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
-    public List<Event> getAllEvents() {
-        return (List<Event>) eventRepository.findAll();
+    public List<EventDto> getAllEvents() {
+        List<Event> events = (List<Event>) eventRepository.findAll();
+        return events
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @ApiOperation("Delete an event")
@@ -95,5 +102,17 @@ public class EventController {
     	event.deleteUserSubscribed(userSubscribing);
     	eventRepository.save(event);
     	return event.getUserSubscribed();
+    }
+
+    private EventDto convertToDto(Event event) {
+        EventInfo eventInfo = new EventInfo(event.getId(), event.getTitle(), event.getDescription(), event.getAddress(), event.getStartDateTime());
+        Set<UserInfo> userSubscribed = new HashSet<>();
+        if( event.getUserSubscribed() != null && event.getUserSubscribed().size() > 0) {
+            for(User user : event.getUserSubscribed()) {
+                UserInfo userInfo = new UserInfo(user.getId(), user.getName(), user.getRole(), user.getEmail(), user.getPassword());
+                userSubscribed.add(userInfo);
+            }
+        }
+        return new EventDto(eventInfo, userSubscribed);
     }
 }
