@@ -8,7 +8,7 @@ cd cleantogather-api
 docker-compose up -d
 ./mvnw spring-boot:run
 ```
-### If you don't have docker-compose you need to launch a MySQL database and configure the env. variables in ``./src/main/resources/application.properties``
+If you don't have docker-compose you need to launch a MySQL database and configure the env. variables in ``./src/main/resources/application.properties``
 
 Runs the app in the development mode.<br />
 Open [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) to view the rest api documentation.
