@@ -58,7 +58,7 @@
 			<version>2.8.0</version>
 		</dependency>
 
-		<!-- Enable the sending of mails -->
+		<!-- Enable to send emails -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
