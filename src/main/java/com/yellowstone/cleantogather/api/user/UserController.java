@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController // This means this class is a rest controller
-@CrossOrigin
 @RequestMapping(path="/users") // This means URL's start with /events (after Application path)
-
-@CrossOrigin
 public class UserController {
 	
     private final UserRepository userRepository;
