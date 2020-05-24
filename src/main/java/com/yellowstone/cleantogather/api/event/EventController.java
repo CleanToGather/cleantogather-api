@@ -15,6 +15,7 @@ import java.util.Set;
 
 @RestController // This means this class is a rest controller
 @RequestMapping(path="/events") // This means URL's start with /events (after Application path)
+@CrossOrigin
 public class EventController {
 
     private final EventRepository eventRepository;
