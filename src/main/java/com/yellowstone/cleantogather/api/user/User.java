@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
->>>>>>> master
 import com.yellowstone.cleantogather.api.event.Event;
 
 import java.time.LocalDateTime;
