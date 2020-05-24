@@ -1,6 +1,7 @@
 package com.yellowstone.cleantogather.api.event;
 
 import com.yellowstone.cleantogather.api.common.exception.NotFoundException;
+import com.yellowstone.cleantogather.api.common.service.email.EmailService;
 import com.yellowstone.cleantogather.api.user.User;
 import com.yellowstone.cleantogather.api.user.UserRepository;
 
@@ -21,12 +22,14 @@ public class EventController {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final ModelMapper mapper;
+    private final EmailService emailService;
 
     @Autowired
-    public EventController(EventRepository eventRepository, UserRepository userRepository, ModelMapper mapper) {
+    public EventController(EventRepository eventRepository, UserRepository userRepository, ModelMapper mapper, EmailService emailService) {
         this.userRepository = userRepository;
 		this.eventRepository = eventRepository;
         this.mapper = mapper;
+        this.emailService = emailService;
     }
 
     @ApiOperation("Create a new event")
@@ -74,6 +77,7 @@ public class EventController {
     public Set<User> postSubscribeEvent(@RequestParam Long event_id, @RequestParam Long user_id) {
     	User userSubscribing = userRepository.findById(user_id).orElseThrow(NotFoundException::new);
     	Event event = eventRepository.findById(event_id).orElseThrow(NotFoundException::new);
+        emailService.sendSimpleMessage(userSubscribing.getEmail(), "Insription à l'évènement" + event.getTitle(), "Merci de vous avoir inscrit \n" + event.getDescription());
     	event.addUserSubscribed(userSubscribing);
     	eventRepository.save(event);
     	return event.getUserSubscribed();
