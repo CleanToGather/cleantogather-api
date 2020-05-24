@@ -2,7 +2,6 @@ package com.yellowstone.cleantogather.api.user;
 
 import com.yellowstone.cleantogather.api.common.exception.NotFoundException;
 
-import com.yellowstone.cleantogather.api.common.service.email.EmailService;
 import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,27 +18,24 @@ public class UserController {
 	
     private final UserRepository userRepository;
     private final ModelMapper mapper;
-    private final EmailService emailService;
 
     @Autowired
-    public UserController(UserRepository userRepository, ModelMapper mapper, EmailService emailService) {
+    public UserController(UserRepository userRepository, ModelMapper mapper) {
         this.userRepository = userRepository;
         this.mapper = mapper;
-        this.emailService = emailService;
     }
 
     @ApiOperation("Create a new user")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
-    public User postUser(@RequestBody User user) { return userRepository.save(user); }
+    public User postUser(@RequestBody User user) {
+        return userRepository.save(user);
+    }
     
     @ApiOperation("Get all the users")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
     public List<User> getAllUsers() {
-
-
-        emailService.sendSimpleMessage("florent.favole@gmail.com", "caca", "prout");
         return (List<User>) userRepository.findAll();
     }
     
