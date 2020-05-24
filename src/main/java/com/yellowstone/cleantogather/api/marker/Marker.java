@@ -13,6 +13,7 @@ public class Marker {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String address;
     private Long coord_x;
     private Long coord_y;
     private LocalDateTime markedDateTime;
@@ -23,6 +24,7 @@ public class Marker {
         if (o == null || getClass() != o.getClass()) return false;
         Marker marker = (Marker) o;
         return Objects.equals(id, marker.id) &&
+        		Objects.equals(address, marker.address) &&
                 Objects.equals(coord_x, marker.coord_x) &&
                 Objects.equals(coord_y, marker.coord_y) &&
                 Objects.equals(markedDateTime, marker.markedDateTime);
@@ -60,6 +62,14 @@ public class Marker {
 
 	public void setMarkedDateTime(LocalDateTime markedDateTime) {
 		this.markedDateTime = markedDateTime;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }
