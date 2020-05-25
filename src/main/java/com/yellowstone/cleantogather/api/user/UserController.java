@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -24,30 +25,23 @@ public class UserController {
 	
     private final UserRepository userRepository;
     private final ModelMapper mapper;
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, ModelMapper mapper, AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+    public UserController(UserRepository userRepository, ModelMapper mapper,UserService userService) {
         this.userRepository = userRepository;
         this.mapper = mapper;
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.userService = userService;
     }
 
     @PostMapping("/signin")
     @ApiOperation(value = "Authenticates user and returns its JWT token")
-    @ApiResponses(value = {@ApiResponse(code = 400, message = "Something went wrong"), @ApiResponse(code = 422, message = "Invalid username/password supplied")})
     public String login(@ApiParam("Name") @RequestParam String name, @ApiParam("Password") @RequestParam String password) {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(name, password));
-            return jwtTokenProvider.createToken(name, userRepository.findByName(name).getRoles());
-        } catch (AuthenticationException e) {
-            throw e;
-        }
+        return userService.signin(name, password);
     }
 
     @ApiOperation("Create a new user")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
     public User postUser(@RequestBody User user) {
@@ -55,6 +49,7 @@ public class UserController {
     }
     
     @ApiOperation("Get all the users")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
     public List<User> getAllUsers() {
@@ -62,6 +57,7 @@ public class UserController {
     }
     
     @ApiOperation("Get an user by his id")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public User getUser(@PathVariable("id") Long id) {
@@ -69,6 +65,7 @@ public class UserController {
     }
     
     @ApiOperation("Patch an existent user")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{id}")
     public User patchUser(@RequestBody User user, @PathVariable("id") Long id) {
@@ -78,6 +75,7 @@ public class UserController {
     }
 
     @ApiOperation("Delete an user")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
     public User deleteUser(@PathVariable("id") Long id) {
