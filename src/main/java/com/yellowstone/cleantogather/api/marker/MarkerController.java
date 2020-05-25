@@ -18,14 +18,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/markers") // This means URL's start with /events (after Application path)
 
 public class MarkerController {
-	
+
 	private final MarkerRepository markerRepository;
-    private final ModelMapper mapper;
-	
+
     @Autowired
     public MarkerController(MarkerRepository markerRepository, ModelMapper mapper) {
         this.markerRepository = markerRepository;
-        this.mapper = mapper;
     }
     
     @ApiOperation("Create a new marker")

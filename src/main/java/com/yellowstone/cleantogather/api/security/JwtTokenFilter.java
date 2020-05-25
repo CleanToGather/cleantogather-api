@@ -36,8 +36,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             httpServletResponse.sendError(ex.getStatus().value(), ex.getMessage());
             return;
         }
-
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
-
 }
