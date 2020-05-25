@@ -1,9 +1,6 @@
 package com.yellowstone.cleantogather.api.marker;
 
 import com.yellowstone.cleantogather.api.common.exception.NotFoundException;
-import com.yellowstone.cleantogather.api.event.Event;
-import com.yellowstone.cleantogather.api.event.EventRepository;
-import com.yellowstone.cleantogather.api.marker.MarkerRepository;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -12,6 +9,7 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // This means this class is a rest controller
@@ -34,6 +32,7 @@ public class MarkerController {
     }
     
     @ApiOperation("Get an marker by his id")
+    @PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Marker getMarker(@PathVariable("id") Long id) {
@@ -41,6 +40,7 @@ public class MarkerController {
     }
 
     @ApiOperation("Get all the markers")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
     public List<Marker> getAllMarkers() {
@@ -48,6 +48,7 @@ public class MarkerController {
     }
 
     @ApiOperation("Delete an marker")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")	
     public Marker deleteMarker(@PathVariable("id") Long id) {

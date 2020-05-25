@@ -1,5 +1,6 @@
 package com.yellowstone.cleantogather.api.user;
 
+import com.yellowstone.cleantogather.api.common.exception.UnprocessableEntityException;
 import com.yellowstone.cleantogather.api.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,21 +29,22 @@ public class UserService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(name, password));
             return jwtTokenProvider.createToken(name, userRepository.findByName(name).getRoles());
         } catch (AuthenticationException e) {
-            throw e;
+            throw new UnprocessableEntityException();
         }
     }
 
     public String signup(User user) {
-        if (userRepository.findByName(user.getName()) == null) {
+        if (userRepository.findByName(user.getName()) == null && userRepository.findByEmail(user.getEmail()) == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             return jwtTokenProvider.createToken(user.getName(), user.getRoles());
         } else {
-            return "username already in use";
+            throw new UnprocessableEntityException("Username or email already in use");
         }
     }
 
+    /* Maybe for later
     public String refresh(String name) {
         return jwtTokenProvider.createToken(name, userRepository.findByName(name).getRoles());
-    }
+    }*/
 }

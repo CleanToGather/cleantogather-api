@@ -4,11 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.yellowstone.cleantogather.api.event.Event;
 import lombok.*;
 
@@ -38,6 +35,7 @@ public class User {
 	private String email;
 
 	@Size(min = 8, message = "Minimum password length: 8 characters")
+	@JsonIgnore
 	private String password;
 
 	@ElementCollection(fetch = FetchType.EAGER)

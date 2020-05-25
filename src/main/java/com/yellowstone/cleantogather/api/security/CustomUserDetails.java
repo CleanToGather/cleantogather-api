@@ -1,7 +1,5 @@
 package com.yellowstone.cleantogather.api.security;
 
-import com.yellowstone.cleantogather.api.common.exception.NotFoundException;
-
 import com.yellowstone.cleantogather.api.user.User;
 import com.yellowstone.cleantogather.api.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
