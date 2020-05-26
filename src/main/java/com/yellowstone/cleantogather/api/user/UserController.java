@@ -18,11 +18,19 @@ public class UserController {
 	
     private final UserRepository userRepository;
     private final ModelMapper mapper;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, ModelMapper mapper) {
+    public UserController(UserRepository userRepository, ModelMapper mapper,UserService userService) {
         this.userRepository = userRepository;
         this.mapper = mapper;
+        this.userService = userService;
+    }
+
+    @PostMapping("/signin")
+    @ApiOperation(value = "Authenticates user and returns its JWT token")
+    public String login(@ApiParam("Name") @RequestParam String name, @ApiParam("Password") @RequestParam String password) {
+        return userService.signin(name, password);
     }
 
     @ApiOperation("Get all the users")
