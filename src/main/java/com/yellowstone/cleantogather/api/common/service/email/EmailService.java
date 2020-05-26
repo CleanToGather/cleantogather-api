@@ -1,4 +1,4 @@
-package com.yellowstone.cleantogather.api.common.service.email;
+/*package com.yellowstone.cleantogather.api.common.service.email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EmailService  {
+
     @Autowired
-    public JavaMailSender emailSender;
+    private JavaMailSender emailSender;
 
     public void sendSimpleMessage(String to, String subject, String text) {
         try {
@@ -22,4 +23,4 @@ public class EmailService  {
             exception.printStackTrace();
         }
     }
-}
+}*/

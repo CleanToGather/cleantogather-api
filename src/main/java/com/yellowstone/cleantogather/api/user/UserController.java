@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController // This means this class is a rest controller
 @RequestMapping(path="/users") // This means URL's start with /events (after Application path)
-@CrossOrigin
 public class UserController {
 	
     private final UserRepository userRepository;
@@ -34,14 +33,6 @@ public class UserController {
         return userService.signin(name, password);
     }
 
-    @ApiOperation("Create a new user")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/signup")
-    public User postUser(@RequestBody User user) {
-        return userRepository.save(user);
-    }
-    
     @ApiOperation("Get all the users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
