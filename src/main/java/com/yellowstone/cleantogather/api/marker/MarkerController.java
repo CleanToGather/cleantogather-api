@@ -56,4 +56,11 @@ public class MarkerController {
         markerRepository.deleteById(id);
         return deletedMarker;
     }
+    
+    @ApiOperation("Count markers")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/count")
+    public long count() {
+        return markerRepository.count();
+    }
 }

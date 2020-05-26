@@ -68,4 +68,18 @@ public class UserController {
         userRepository.deleteById(id);
         return deletedUser;
     }
+    
+    @ApiOperation("Get a user by email")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/mail/{mail}")
+    public User getUserByMail(@PathVariable("mail") String mail) {
+        return userRepository.findByEmail(mail);
+    }
+    
+    @ApiOperation("Get a user by name")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/name/{name}")
+    public User getUserByName(@PathVariable("name") String name) {
+        return userRepository.findByName(name);
+    }
 }

@@ -104,4 +104,11 @@ public class EventController {
     	eventRepository.save(event);
     	return event.getUserSubscribed();
     }
+    
+    @ApiOperation("Count events")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/count")
+    public long count() {
+        return eventRepository.count();
+    }
 }

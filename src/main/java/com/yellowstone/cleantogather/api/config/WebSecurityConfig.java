@@ -42,6 +42,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/events/subscribed/{id}").permitAll()
                 .antMatchers(HttpMethod.POST, "/events/unsubscribe").permitAll()
                 .antMatchers(HttpMethod.POST, "/markers").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/mail/{mail}").permitAll()
+                .antMatchers(HttpMethod.GET, "/users/name/{name}").permitAll()
+                .antMatchers(HttpMethod.GET, "/events/count").permitAll()
+                .antMatchers(HttpMethod.GET, "/markers/count").permitAll()
                 .anyRequest().authenticated();
 
         // If a user try to access a resource without having enough permissions
