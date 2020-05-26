@@ -39,7 +39,7 @@ public class UserService {
             userRepository.save(user);
             return jwtTokenProvider.createToken(user.getName(), user.getRoles());
         } else {
-            throw new UnprocessableEntityException("Username or email already in use");
+            return "Username or email already in use";
         }
     }
 
