@@ -1,4 +1,4 @@
-package com.yellowstone.cleantogather.api.common.service.email;
+/*package com.yellowstone.cleantogather.api.common.service.email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -23,4 +23,4 @@ public class EmailService  {
             exception.printStackTrace();
         }
     }
-}
+}*/

@@ -86,8 +86,6 @@
 			<version>2.3.0.RELEASE</version>
 		</dependency>
 
-
-
 		<!-- Enable the unit tests-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
