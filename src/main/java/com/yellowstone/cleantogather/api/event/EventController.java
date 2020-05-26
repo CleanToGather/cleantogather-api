@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public class EventController {
     }
 
     @ApiOperation("Create a new event")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     public Event postEvent(@RequestBody Event event) {
@@ -40,6 +42,7 @@ public class EventController {
     }
 
     @ApiOperation("Patch an existent event")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{id}")
     public Event patchEvent(@RequestBody Event event, @PathVariable("id") Long id) {
@@ -63,6 +66,7 @@ public class EventController {
     }
 
     @ApiOperation("Delete an event")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
     public Event deleteEvent(@PathVariable("id") Long id) {

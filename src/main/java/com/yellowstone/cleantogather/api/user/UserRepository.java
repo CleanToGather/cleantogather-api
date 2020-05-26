@@ -5,4 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 // This will be auto implemented by Spring
 // Crud refers to Create Read Update Delete
 public interface UserRepository extends CrudRepository<User, Long> {
+
+    User findByName(String name);
+
+    User findByEmail(String email);
 }
