@@ -19,29 +19,13 @@ public class UserController {
 	
     private final UserRepository userRepository;
     private final ModelMapper mapper;
-    private final UserService userService;
 
     @Autowired
-    public UserController(UserRepository userRepository, ModelMapper mapper,UserService userService) {
+    public UserController(UserRepository userRepository, ModelMapper mapper) {
         this.userRepository = userRepository;
         this.mapper = mapper;
-        this.userService = userService;
     }
 
-    @PostMapping("/signin")
-    @ApiOperation(value = "Authenticates user and returns its JWT token")
-    public String login(@ApiParam("Name") @RequestParam String name, @ApiParam("Password") @RequestParam String password) {
-        return userService.signin(name, password);
-    }
-
-    @ApiOperation("Create a new user")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/signup")
-    public User postUser(@RequestBody User user) {
-        return userRepository.save(user);
-    }
-    
     @ApiOperation("Get all the users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
