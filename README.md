@@ -25,6 +25,8 @@ That's it the API started in development mode.<br />
 
 Open [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) to view the REST api documentation.
 
+Now you can install and start the front-end : [cleantogather-front](https://github.com/Elorolf/cleantogather-front)
+
 ## Learn More
 
 This project was made with [Spring Boot](https://spring.io/projects/spring-boot).
