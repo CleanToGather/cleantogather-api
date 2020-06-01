@@ -21,7 +21,7 @@ After launched the database you can start the api service :
 ./mvnw spring-boot:run
 ```
 
-That its the API started in development mode.<br />
+That's it the API started in development mode.<br />
 
 Open [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) to view the REST api documentation.
 
