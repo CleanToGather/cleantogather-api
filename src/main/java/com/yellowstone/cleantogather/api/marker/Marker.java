@@ -14,8 +14,8 @@ public class Marker {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String address;
-    private Long coord_x;
-    private Long coord_y;
+    private Double coord_x;
+    private Double coord_y;
     private LocalDateTime markedDateTime;
     
     @Override
@@ -40,19 +40,19 @@ public class Marker {
 		this.id = id;
 	}
 
-	public Long getCoord_x() {
+	public Double getCoord_x() {
 		return coord_x;
 	}
 
-	public void setCoord_x(Long coord_x) {
+	public void setCoord_x(Double coord_x) {
 		this.coord_x = coord_x;
 	}
 
-	public Long getCoord_y() {
+	public Double getCoord_y() {
 		return coord_y;
 	}
 
-	public void setCoord_y(Long coord_y) {
+	public void setCoord_y(Double coord_y) {
 		this.coord_y = coord_y;
 	}
 

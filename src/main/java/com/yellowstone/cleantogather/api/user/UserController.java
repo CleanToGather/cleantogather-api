@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController // This means this class is a rest controller
@@ -39,6 +41,17 @@ public class UserController {
     @GetMapping("")
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
+    }
+    
+    @ApiOperation("Create a user")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("")
+    public User postUser(@RequestBody User user) {
+    	user.setName(user.getEmail());
+		user.setPassword(user.getEmail());
+		user.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_USER)));
+		userService.signup(user);
+        return user;
     }
     
     @ApiOperation("Get an user by his id")

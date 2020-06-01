@@ -41,6 +41,6 @@ public class User {
 	@ElementCollection(fetch = FetchType.EAGER)
 	List<Role> roles;
 	
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "userSubscribed")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "userSubscribed", cascade=CascadeType.ALL)
 	private Set<Event> eventSubscribed;
 }
